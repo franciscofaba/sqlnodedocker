@@ -89,6 +89,8 @@ export const updateStudent = async (req, res) => {
         }
 
         // Confirma la transacción
+
+        
         await pool.query('COMMIT;');
 
         res.status(200).json({
