@@ -14,10 +14,10 @@ export const getLogin = async (req,res) => {
     
 }
 
-export const getLoginByMail = async (req,res) => {
+export const getLoginByEmail = async (req,res) => {
     try{
-        console.log([req.params.idAlumno_fk])
-        const [rows] = await pool.query('SELECT * FROM Login WHERE mail = ?', [req.params.mail])
+        console.log([req.params.idStudent_fk])
+        const [rows] = await pool.query('SELECT * FROM Login WHERE email = ?', [req.params.email])
         if (rows.length <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
         })
@@ -29,30 +29,14 @@ export const getLoginByMail = async (req,res) => {
     }   
 }
 
-export const createLogin = async (req, res) => {
-    try {
-        const { mail, password, idAlumno_fk} = req.body;
-        const [rows] = await pool.query('INSERT INTO `BBD_CRM`.`Login` (`mail`, `password`, `idAlumno_fk`) VALUES (?,?,?)', [mail, password, idAlumno_fk]);
-        res.status(201).json({
-            id: rows.insertId,
-            mail, 
-            password, 
-            idAlumno_fk
-        });
-    } catch(error) {
-        console.error('Error al insertar el alumno:', error);
-        return res.status(500).json({
-            message: 'ERROR: algo salió mal'
-        });
-    }
-};
+
 
 export const updateLogin = async (req, res) => {
     try {
-        const { idAlumno_fk} = req.params;
-        const {mail, password} = req.body;
+        const { idStudent_fk} = req.params;
+        const {email, password} = req.body;
         await pool.query('SET FOREIGN_KEY_CHECKS=0');
-        const [result] = await pool.query('UPDATE login SET  mail = IFNULL(?, mail), password, = IFNULL(?, password,), idAlumno_fk = IFNULL(?, idAlumno_fk) WHERE idAlumno_fk = ?', [mail, password, idAlumno_fk]);
+        const [result] = await pool.query('UPDATE login SET  email = IFNULL(?, email), password, = IFNULL(?, password,), idStudent_fk = IFNULL(?, idStudent_fk) WHERE idStudent_fk = ?', [email, password, idStudent_fk]);
 
         console.log(result);
 
@@ -62,7 +46,7 @@ export const updateLogin = async (req, res) => {
             });
         }
 
-        const [rows] = await pool.query('SELECT * FROM login WHERE idAlumno_fk = ?', [idAlumno_fk]);
+        const [rows] = await pool.query('SELECT * FROM login WHERE idStudent_fk = ?', [idStudent_fk]);
         await pool.query('SET FOREIGN_KEY_CHECKS=1');
         res.json(rows[0]);
     } catch (error) {
@@ -76,8 +60,8 @@ export const updateLogin = async (req, res) => {
 
 export const deleteLogin = async (req,res) => {
     try{
-        console.log([req.params.idAlumno_fk])
-        const [result]= await pool.query('DELETE FROM login WHERE idAlumno_fk= ?', [req.params.idAlumno_fk])
+        console.log([req.params.idStudent_fk])
+        const [result]= await pool.query('DELETE FROM login WHERE idStudent_fk= ?', [req.params.idStudent_fk])
         if (result.affectedRows <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
         })

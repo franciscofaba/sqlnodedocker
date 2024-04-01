@@ -1,15 +1,14 @@
 import { Router } from 'express'
-import {getLogin,getLoginByMail,createLogin,deleteLogin, updateLogin} from '../controller/login.controller.js'
+import {getLogin,getLoginByEmail,deleteLogin, updateLogin} from '../controller/login.controller.js'
 const router = Router()
 
 router.get('/login', getLogin)
 
-router.get('/login/:mail', getLoginByMail)
+router.get('/login/:mail', getLoginByEmail)
 
-router.post('/login', createLogin)
 
-router.patch('/login/:idAlumno', updateLogin)
+router.patch('/login/:idstudent', updateLogin)
 
-router.delete('/login/:idAlumno', deleteLogin)
+router.delete('/login/:idstudent', deleteLogin)
 
 export default router
