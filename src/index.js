@@ -4,10 +4,13 @@ import StudentRoutes from './routes/Student.routes.js'
 import loginRoutes from './routes/login.routes.js'
 import courseRoutes from './routes/course.routes.js'
 import careerRoutes from './routes/career.routes.js'
+import interClassRoutes from './routes/interClass.routes.js'
+import attendanceRoutes from './routes/attendance.routes.js'
+import regulationRoutes from './routes/regulation.routes.js'
+
+
 
 const app = express()
-
-
 
 
 app.use(express.json())
@@ -21,14 +24,14 @@ app.use((req, res, next) => {
 
 
 
-
-
 app.use(indexRoutes)
 app.use('/api',StudentRoutes)
 app.use('/api',loginRoutes)
 app.use('/api',courseRoutes)
 app.use('/api',careerRoutes)
-
+app.use('/api',interClassRoutes)
+app.use('/api',attendanceRoutes)
+app.use('/api',regulationRoutes)
 
 
 

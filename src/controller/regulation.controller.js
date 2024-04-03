@@ -1,9 +1,9 @@
 import {pool} from '../db.js'
 
 
-export const getCourse = async (req,res) => {
+export const getRegulation = async (req,res) => {
     try{
-        const [rows] = await pool.query('SELECT * FROM Course')
+        const [rows] = await pool.query('SELECT * FROM Regulation')
         res.json(rows)
 
     } catch(error) {
@@ -14,10 +14,10 @@ export const getCourse = async (req,res) => {
     
 }
 
-export const getCourseByCareer = async (req,res) => {
+export const getRegulationByidCourse = async (req,res) => {
     try{
-        console.log([req.params.idCareer])
-        const [rows] = await pool.query('SELECT * FROM Course WHERE idCareer_fk = ?', [req.params.idCareer])
+        console.log([req.params.idCourse_fk])
+        const [rows] = await pool.query('SELECT * FROM Regulation WHERE idCourse_fk = ?', [req.params.idCourse_fk])
         if (rows.length <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
         })
@@ -28,7 +28,5 @@ export const getCourseByCareer = async (req,res) => {
         })
     }   
 }
-
-
 
 

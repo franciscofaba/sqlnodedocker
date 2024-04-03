@@ -16,7 +16,7 @@ export const getLogin = async (req,res) => {
 
 export const getLoginByEmail = async (req,res) => {
     try{
-        console.log([req.params.idStudent_fk])
+        console.log([req.params.email])
         const [rows] = await pool.query('SELECT * FROM Login WHERE email = ?', [req.params.email])
         if (rows.length <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
