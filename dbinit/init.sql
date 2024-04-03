@@ -13,9 +13,9 @@ CREATE SCHEMA IF NOT EXISTS `BBD_CRM` DEFAULT CHARACTER SET utf8 ;
 USE `BBD_CRM` ;
 
 -- -----------------------------------------------------
--- Table `BBD_CRM`.`Career/postgraduate`
+-- Table `BBD_CRM`.`Career`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Career/postgraduate` (
+CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Career` (
   `idCareer` INT NOT NULL,
   `careerName` VARCHAR(45) NULL,
   `degreeType` VARCHAR(45) NULL,
@@ -32,10 +32,10 @@ CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Course` (
   `courseName` VARCHAR(45) NULL,
   `semesterNumber` VARCHAR(45) NULL,
   PRIMARY KEY (`idCourse`, `idCareer_fk`),
-  INDEX `fk_Class_Career/postgraduate1_idx` (`idCareer_fk` ASC) VISIBLE,
-  CONSTRAINT `fk_Class_Career/postgraduate1`
+  INDEX `fk_Class_Career1_idx` (`idCareer_fk` ASC) VISIBLE,
+  CONSTRAINT `fk_Class_Career1`
     FOREIGN KEY (`idCareer_fk`)
-    REFERENCES `BBD_CRM`.`Career/postgraduate` (`idCareer`)
+    REFERENCES `BBD_CRM`.`Career` (`idCareer`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Student` (
   `studentName` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,
   PRIMARY KEY (`idStudent`, `idCareer_fk`),
-  INDEX `fk_Student_Career/postgraduate_idx` (`idCareer_fk` ASC) VISIBLE,
-  CONSTRAINT `fk_Student_Career/postgraduate`
+  INDEX `fk_Student_Career_idx` (`idCareer_fk` ASC) VISIBLE,
+  CONSTRAINT `fk_Student_Career`
     FOREIGN KEY (`idCareer_fk`)
-    REFERENCES `BBD_CRM`.`Career/postgraduate` (`idCareer`)
+    REFERENCES `BBD_CRM`.`Career` (`idCareer`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -150,8 +150,8 @@ ENGINE = InnoDB;
 USE `BBD_CRM` ;
 
 
--- Inserting data into the Career/postgraduate table
-INSERT INTO `BBD_CRM`.`Career/postgraduate` (`idCareer`, `careerName`, `degreeType`) VALUES
+-- Inserting data into the Career table
+INSERT INTO `BBD_CRM`.`Career` (`idCareer`, `careerName`, `degreeType`) VALUES
 (1, 'Computer Engineering', 'Bachelor'),
 (2, 'Business Administration', 'Bachelor');
 

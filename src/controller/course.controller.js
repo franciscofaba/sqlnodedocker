@@ -1,9 +1,9 @@
 import {pool} from '../db.js'
 
 
-export const getLogin = async (req,res) => {
+export const getCourse = async (req,res) => {
     try{
-        const [rows] = await pool.query('SELECT * FROM login')
+        const [rows] = await pool.query('SELECT * FROM Course')
         res.json(rows)
 
     } catch(error) {
@@ -14,10 +14,10 @@ export const getLogin = async (req,res) => {
     
 }
 
-export const getLoginByEmail = async (req,res) => {
+export const getCourseByCareer = async (req,res) => {
     try{
         console.log([req.params.idStudent_fk])
-        const [rows] = await pool.query('SELECT * FROM Login WHERE email = ?', [req.params.email])
+        const [rows] = await pool.query('SELECT * FROM Course WHERE idCareer_fk = ?', [req.params.Career])
         if (rows.length <= 0 ) return res.status(404).json({
             message:'no se encontro envio'
         })
@@ -28,7 +28,6 @@ export const getLoginByEmail = async (req,res) => {
         })
     }   
 }
-
 
 
 

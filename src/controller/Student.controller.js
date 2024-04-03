@@ -31,29 +31,32 @@ export const getStudentById = async (req,res) => {
 
 export const createStudent = async (req, res) => {
     try {
-        const { idStudent, idCareer_fk, studentName, email, password} = req.body;
+        const { idCareer_fk, studentName, email, password } = req.body;
 
         // Inicia la transacción
         await pool.query('START TRANSACTION;');
 
+        // Obtiene el último idStudent de la base de datos
+        const [lastIdResult] = await pool.query('SELECT MAX(idStudent) AS lastId FROM `BBD_CRM`.`Student`;');
+        const lastId = lastIdResult[0].lastId || 0;
+        const newIdStudent = lastId + 1;
+
         // Inserta en la tabla Student
-        const [studentRows] = await pool.query('INSERT INTO `BBD_CRM`.`Student` (`idStudent`, `idCareer_fk`, `studentName`, `email`) VALUES (?, ?, ?, ?);', [idStudent, idCareer_fk, studentName, email]);
+        await pool.query('INSERT INTO `BBD_CRM`.`Student` (`idStudent`, `idCareer_fk`, `studentName`, `email`) VALUES (?, ?, ?, ?);', [newIdStudent, idCareer_fk, studentName, email]);
 
         // Inserta en la tabla login
-        const [loginRows] = await pool.query('INSERT INTO `BBD_CRM`.`login` (`email`, `password`, `idStudent_fk`) VALUES (?, ?, ?);', [email, password, idStudent]);
+        await pool.query('INSERT INTO `BBD_CRM`.`login` (`email`, `password`, `idStudent_fk`) VALUES (?, ?, ?);', [email, password, newIdStudent]);
 
         // Confirma la transacción
         await pool.query('COMMIT;');
 
-
         res.status(201).json({
-            id: studentRows.insertId,
-            idStudent,
+            id: newIdStudent,
             idCareer_fk,
             studentName,
             email,
             password,
-            idStudent_fk: idStudent
+            idStudent_fk: newIdStudent
         });
     } catch (error) {
         console.error('Error al insertar el Student:', error);
@@ -114,18 +117,56 @@ export const updateStudent = async (req, res) => {
 
 
 
+export const deleteStudentById = async (req, res) => {
+    const idStudent = req.params.idStudent;
+    console.log(`Intentando eliminar estudiante con ID: ${idStudent}`);
 
-export const deleteStudent = async (req,res) => {
-    try{
-        console.log([req.params.idStudent])
-        const [result]= await pool.query('DELETE FROM Student WHERE idStudent= ?', [req.params.idStudent])
-        if (result.affectedRows <= 0 ) return res.status(404).json({
-            message:'no se encontro envio'
-        })
-        console.log(result)
-    } catch(error) {
-        return res.status(500).json({
-            message:'ERROR: something goes wrong'
-        })
-    } 
-}
+    if (!idStudent) {
+        return res.status(400).json({
+            message: 'El ID del estudiante es requerido.'
+        });
+    }
+
+    try {
+        const connection = await pool.getConnection();
+
+        try {
+            await connection.beginTransaction();
+
+            // Primero, eliminar las referencias en `Attendance` que están vinculadas a través de `StudentClassIntermediate`
+            await connection.query(`
+                DELETE Attendance FROM Attendance
+                INNER JOIN StudentClassIntermediate
+                ON Attendance.idStudentClass_fk = StudentClassIntermediate.idStudentClass
+                WHERE StudentClassIntermediate.idStudent_fk = ?`, [idStudent]);
+
+            // Luego, eliminar las referencias en `StudentClassIntermediate`
+            await connection.query('DELETE FROM StudentClassIntermediate WHERE idStudent_fk = ?', [idStudent]);
+
+            // Continuar con la eliminación en otras tablas como antes
+            await connection.query('DELETE FROM login WHERE idStudent_fk = ?', [idStudent]);
+            const [result] = await connection.query('DELETE FROM Student WHERE idStudent = ?', [idStudent]);
+
+            if (result.affectedRows <= 0) {
+                throw new Error(`Estudiante con ID ${idStudent} no encontrado.`);
+            }
+
+            await connection.commit();
+            res.status(200).json({
+                message: 'Estudiante eliminado con éxito',
+                idStudent
+            });
+        } catch (error) {
+            await connection.rollback();
+            throw error; // Relanzar para manejar en el siguiente bloque catch
+        } finally {
+            connection.release();
+        }
+    } catch (error) {
+        console.error('Error al eliminar el estudiante:', error.message);
+        res.status(500).json({
+            message: 'ERROR: Algo salió mal al intentar eliminar el estudiante'
+        });
+    }
+};
+
