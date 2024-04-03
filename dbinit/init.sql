@@ -60,9 +60,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `BBD_CRM`.`StudentClassIntermediate`
+-- Table `BBD_CRM`.`interClass`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `BBD_CRM`.`StudentClassIntermediate` (
+CREATE TABLE IF NOT EXISTS `BBD_CRM`.`interClass` (
   `idStudent_fk` INT NOT NULL,
   `idCourse_fk` INT NOT NULL,
   `idCareer_fk` INT NOT NULL,
@@ -90,7 +90,7 @@ ENGINE = InnoDB;
 -- Table `BBD_CRM`.`Attendance`
 -- -----------------------------------------------------
 
-ALTER TABLE `BBD_CRM`.`StudentClassIntermediate` ADD INDEX `idx_idStudentClass` (`idStudentClass`);
+ALTER TABLE `BBD_CRM`.`interClass` ADD INDEX `idx_idStudentClass` (`idStudentClass`);
 
 CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Attendance` (
   `idAttendance` VARCHAR(45) NOT NULL,
@@ -100,11 +100,11 @@ CREATE TABLE IF NOT EXISTS `BBD_CRM`.`Attendance` (
   `idStudentClass_fk` VARCHAR(45) NOT NULL,
   `idStudent_fk` INT NOT NULL,
   PRIMARY KEY (`idAttendance`),
-  INDEX `fk_Attendance_StudentClassIntermediate1_idx` (`idStudentClass_fk` ASC) VISIBLE,
+  INDEX `fk_Attendance_interClass1_idx` (`idStudentClass_fk` ASC) VISIBLE,
   INDEX `fk_Attendance_Student1_idx` (`idStudent_fk` ASC) VISIBLE,
-  CONSTRAINT `fk_Attendance_StudentClassIntermediate1`
+  CONSTRAINT `fk_Attendance_interClass1`
     FOREIGN KEY (`idStudentClass_fk`)
-    REFERENCES `BBD_CRM`.`StudentClassIntermediate` (`idStudentClass`)
+    REFERENCES `BBD_CRM`.`interClass` (`idStudentClass`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Attendance_Student1`
@@ -167,8 +167,8 @@ INSERT INTO `BBD_CRM`.`Student` (`idStudent`, `idCareer_fk`, `studentName`, `ema
 (1002, 1, 'María Gómez', 'maria@example.com'),
 (1003, 2, 'Carlos López', 'carlos@example.com');
 
--- Inserting data into the StudentClassIntermediate table
-INSERT INTO `BBD_CRM`.`StudentClassIntermediate` (`idStudent_fk`, `idCourse_fk`, `idCareer_fk`, `professor`, `courseName`, `idStudentClass`, `courseStatus`) VALUES
+-- Inserting data into the interClass table
+INSERT INTO `BBD_CRM`.`interClass` (`idStudent_fk`, `idCourse_fk`, `idCareer_fk`, `professor`, `courseName`, `idStudentClass`, `courseStatus`) VALUES
 (1001, 101, 1, 'Professor 1', 'Advanced Programming', 'A101', 'Active'),
 (1002, 102, 1, 'Professor 2', 'Database Systems', 'A102', 'Active'),
 (1003, 103, 2, 'Professor 3', 'Accounting', 'A103', 'Active');

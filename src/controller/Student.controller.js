@@ -133,15 +133,15 @@ export const deleteStudentById = async (req, res) => {
         try {
             await connection.beginTransaction();
 
-            // Primero, eliminar las referencias en `Attendance` que están vinculadas a través de `StudentClassIntermediate`
+            // Primero, eliminar las referencias en `Attendance` que están vinculadas a través de `interClass`
             await connection.query(`
                 DELETE Attendance FROM Attendance
-                INNER JOIN StudentClassIntermediate
-                ON Attendance.idStudentClass_fk = StudentClassIntermediate.idStudentClass
-                WHERE StudentClassIntermediate.idStudent_fk = ?`, [idStudent]);
+                INNER JOIN interClass
+                ON Attendance.idStudentClass_fk = interClass.idStudentClass
+                WHERE interClass.idStudent_fk = ?`, [idStudent]);
 
-            // Luego, eliminar las referencias en `StudentClassIntermediate`
-            await connection.query('DELETE FROM StudentClassIntermediate WHERE idStudent_fk = ?', [idStudent]);
+            // Luego, eliminar las referencias en `interClass`
+            await connection.query('DELETE FROM interClass WHERE idStudent_fk = ?', [idStudent]);
 
             // Continuar con la eliminación en otras tablas como antes
             await connection.query('DELETE FROM login WHERE idStudent_fk = ?', [idStudent]);
