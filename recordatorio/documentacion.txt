@@ -1,0 +1,119 @@
+1.-Obtener todos los estudiantes
+
+-Método: GET
+-URL: http://localhost:3000/student
+-Función en Node.js: getStudent
+-Parámetros necesarios: Formato
+-Descripcion: Obtener todos los estudiantes: Retorna una lista de todos los estudiantes.
+
+2.-Obtener un estudiante por ID
+
+-Método: GET
+-URL: http://localhost:3000/student/:idStudent
+-Función en Node.js: getStudentById
+-Parámetros necesarios: idStudent (Formato: URL)
+-Descripcion: Obtener un estudiante por ID: Retorna la información de un estudiante específico según su ID.
+
+3.-Crear un nuevo estudiante
+
+-Método: POST
+-URL: http://localhost:3000/student
+-Función en Node.js: createStudent
+-Parámetros necesarios: idCareer_fk, studentName, email, password (Formato: JSON)
+-Descripcion: Crear un nuevo estudiante: Agrega un nuevo estudiante al sistema.
+
+4.-Actualizar un estudiante
+
+-Método: PATCH
+-URL: http://localhost:3000/student/:idStudent
+-Función en Node.js: updateStudent
+-Parámetros necesarios: idStudent, idCareer_fk, studentName, email, password (Formato: JSON y URL)
+-Descripcion: Actualizar un estudiante: Modifica la información de un estudiante existente.
+
+5.-Eliminar un estudiante por ID
+
+-Método: DELETE
+-URL: http://localhost:3000/student/:idStudent
+-Función en Node.js: deleteStudentById
+-Parámetros necesarios: idStudent (Formato: URL)
+-Descripcion: Eliminar un estudiante por ID: Elimina un estudiante del sistema según su ID.
+
+6.-Obtener el reglamento
+
+-Método: GET
+-URL: http://localhost:3000/regulation
+-Función en Node.js: getRegulation
+-Parámetros necesarios: Formato
+-Descripcion: Obtener el reglamento: Obtiene información sobre el reglamento.
+
+7.-Obtener el reglamento por ID de curso
+
+-Método: GET
+-URL: http://localhost:3000/regulation/:idCourse_fk
+-Función en Node.js: getRegulationByidCourse
+-Parámetros necesarios: idCourse_fk (Formato: URL)
+-Descripcion: Obtener el reglamento por ID de curso: Retorna el reglamento asociado a un curso específico.
+
+8.-Obtener información de inicio de sesión
+
+-Método: GET
+-URL: http://localhost:3000/login
+-Función en Node.js: getLogin
+-Parámetros necesarios: Formato
+-Descripcion: Obtener información de inicio de sesión: Retorna información relacionada con el inicio de sesión.
+
+9.-Obtener información de inicio de sesión por correo electrónico
+
+-Método: GET
+-URL: http://localhost:3000/login/:email
+-Función en Node.js: getLoginByEmail
+-Parámetros necesarios: email (Formato: URL)
+-Descripcion: Obtener información de inicio de sesión por correo electrónico: Retorna información de inicio de sesión específica buscando por correo electrónico.
+
+10.-Obtener las clases intermedias entre estudiante y curso
+
+-Método: GET
+-URL: http://localhost:3000/interClass
+-Función en Node.js: getinterClass
+-Parámetros necesarios: Formato
+-Descripcion: Obtener las clases intermedias entre estudiante y curso: Obtiene información sobre las clases intermedias entre estudiantes y cursos.
+
+11.-Obtener todos los cursos
+
+-Método: GET
+-URL: http://localhost:3000/course
+-Función en Node.js: getCourse
+-Parámetros necesarios: Formato
+-Descripcion: Obtener todos los cursos: Retorna una lista de todos los cursos disponibles.
+
+12.-Obtener cursos por ID de carrera
+
+-Método: GET
+-URL: http://localhost:3000/course/:idCareer
+-Función en Node.js: getCourseByCareer
+-Parámetros necesarios: idCareer (Formato: URL)
+-Descripcion: Obtener cursos por ID de carrera: Retorna una lista de cursos asociados a una carrera específica.
+
+13.-Obtener todas las carreras
+
+-Método: GET
+-URL: http://localhost:3000/career
+-Función en Node.js: getCareer
+-Parámetros necesarios: Formato
+-Descripcion: Obtener todas las carreras: Retorna una lista de todas las carreras disponibles.
+
+14.-Obtener carrera por ID
+
+-Método: GET
+-URL: http://localhost:3000/career/:idCareer
+-Función en Node.js: getCareerById
+-Parámetros necesarios: idCareer (Formato: URL)
+-Descripcion: Obtener carrera por ID: Retorna información sobre una carrera específica según su ID.
+
+15.-Obtener asistencias
+
+-Método: GET
+-URL: http://localhost:3000/attendance
+-Función en Node.js: getAttendance
+-Parámetros necesarios: Formato
+-Descripcion: Obtener asistencias: Obtiene información sobre las asistencias registradas.
