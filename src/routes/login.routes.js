@@ -4,7 +4,7 @@ const router = Router()
 
 router.get('/login', getLogin)
 
-router.get('/login/:mail', getLoginByEmail)
+router.get('/login/:email', getLoginByEmail)
 
 
 
